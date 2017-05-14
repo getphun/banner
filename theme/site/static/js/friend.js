@@ -88,11 +88,43 @@
             if(!scripts.length)
                 return;
             
-            $.get('/comp/friends', function(res){
-                _Friend.items = res.data || [];
+            if(!/friend=1/.test(location.search)){
+                $.get('/comp/friends', function(res){
+                    _Friend.items = res.data || [];
+                    for(var i=0; i<scripts.length; i++)
+                        _Friend.render(scripts[i]);
+                });
+            }else{
+                var items = {};
+                for(var i=0; i<scripts.length; i++){
+                    var script = $(scripts[i]);
+                    var defSize = script.parent().width() + 'x' + 75;
+                    var place = script.data('placement');
+                    var count = script.data('example') || 1;
+                    var size  = script.data('size') || defSize;
+                    if(size == 'AUTO')
+                        size = defSize;
+                    
+                    items[place] = [];
+                    
+                    for(j=0; j<count; j++){
+                        var item = {
+                            id: i + '0000' + j,
+                            name: 'Item ' + i,
+                            type: '1',
+                            title: place,
+                            image: 'http://placehold.it/' + size + '?text=' + place + '(' + size + ')',
+                            link: 'http://google.com/'
+                        };
+                        
+                        items[place].push(item);
+                    }
+                }
+                
+                _Friend.items = items;
                 for(var i=0; i<scripts.length; i++)
                     _Friend.render(scripts[i]);
-            });
+            }
         },
  
         template: function(item, tmpl){

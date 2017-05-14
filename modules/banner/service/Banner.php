@@ -88,8 +88,13 @@ class Banner {
         return $this->_banners;
     }
     
-    public function single($name, $tmpl=false){
-        $tx = '<script data-placement="' . $name. '" type="application/friend">';
+    public function single($name, $tmpl=false, $loop=0, $size=false){
+        $tx = '<script data-placement="' . $name. '" type="application/friend"';
+        if($loop)
+            $tx.= ' data-example="' . $loop . '"';
+        if($size)
+            $tx.= ' data-size="' . $size . '"';
+        $tx.= '>';
         if($tmpl){
             $html = new View('site', $tmpl, []);
             $tx.= $html->content;
