@@ -133,7 +133,8 @@
             
             for(var k in item){
                 var re = new RegExp('#'+k, 'g');
-                tmpl = tmpl.replace(re, _Friend.hs(item[k]));
+                if(item[k])
+                    tmpl = tmpl.replace(re, _Friend.hs(item[k]));
             }
             
             return tmpl;
