@@ -8,6 +8,7 @@ CREATE TABLE IF NOT EXISTS `banner` (
     -- 2 Source
     -- 3 Google Ads
     -- 4 Facebook Audience Network
+    -- 5 iFrame
     `type` TINYINT DEFAULT 1,
     
     -- Type Banner
@@ -26,6 +27,10 @@ CREATE TABLE IF NOT EXISTS `banner` (
     -- Type Facebook Audience Network
     `fan_placementid` VARCHAR(150),
     `fan_format` VARCHAR(50),
+    
+    -- Type iFrame
+    `ifr_src` VARCHAR(150),
+    `ifr_time` INTEGER,
     
     `updated` TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
     `created` TIMESTAMP DEFAULT CURRENT_TIMESTAMP

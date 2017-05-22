@@ -47,6 +47,10 @@ class Banner {
             4 => [  // Facebook Audience Network
                 'fan_placementid' => 'placementid',
                 'fan_format'      => 'format'
+            ],
+            5 => [  // iFrame
+                'ifr_src' => 'src',
+                'ifr_time'=> 'time'
             ]
         ];
         

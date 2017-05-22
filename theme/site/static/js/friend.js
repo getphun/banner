@@ -58,8 +58,11 @@
              + '</ins>',
  
             4: '<div class="fb-ad" data-placementid="#placementid" '
-             +      'data-format="#format" data-testmode="true">'
-             + '</div>'
+             +      'data-format="#format" data-testmode="false">'
+             + '</div>',
+ 
+            5: '<iframe src="#src" style="border:0 none;width:100%;height:100%;">'
+             + '</iframe>'
         },
         
         hs: function(text){
@@ -177,7 +180,13 @@
                                 FB.XFBML.parse($fbad);
                             }
                         }($fbad.get(0)));
-                        
+                        break;
+                    case '5':   // iFrame with timer?
+                        var tmpl = $el.html().trim();
+                        var $ban = $(_Friend.template(item,tmpl));
+                        $el.before($ban);
+                        if(item.time)
+                            setTimeout(function(el){ el.remove(); }, item.time * 1000, $ban);
                         break;
                 }
             }
