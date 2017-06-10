@@ -18,8 +18,10 @@ class Banner {
         $dis = \Phun::$dispatcher;
         
         $result = $dis->cache->get($cache_name);
-        if($result && !is_dev())
+        if($result && !is_dev()){
             $this->_banners = $result;
+            return;
+        }
         
         $cache_time = 0;
         $banners = \Banner\Model\Banner::get([
