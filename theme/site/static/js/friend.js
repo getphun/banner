@@ -4,37 +4,6 @@
         throw new Error('Friend module need for jQuery to be installed.');
     
     window._Friend = {
-        fb: {
-            
-            cbs: [],
-            counter: 0,
- 
-            addCB: function(cb){
-                _Friend.fb.cbs.push(cb);
-                if(window.FB)
-                    _Friend.fb.trigger();
-            },
-            
-            trigger: function(){
-                if(!window.FB)
-                    return;
-                var cbs = _Friend.fb.cbs;
-                for(var i=0; i<cbs.length; i++)
-                    cbs[i]();
-                _Friend.fb.cbs = [];
-            },
-            
-            wait: function(){
-                if(window.FB)
-                    return _Friend.fb.trigger();
-                
-                _Friend.fb.counter++;
-                if(_Friend.fb.counter > 15)
-                    throw new Error('Friend module need for fb js api to be installed');
-                setTimeout(_Friend.fb.wait, 1000);
-            }
-        },
- 
         ga: {
             _inited: false,
  
@@ -57,11 +26,7 @@
              +      'data-ad-slot="#slot" data-ad-format="#format">'
              + '</ins>',
  
-            4: '<div class="fb-ad" data-placementid="#placementid" '
-             +      'data-format="#format" data-testmode="false">'
-             + '</div>',
- 
-            5: '<iframe src="#src" style="border:0 none;width:100%;height:100%;">'
+            4: '<iframe src="#src" style="border:0 none;width:100%;height:100%;">'
              + '</iframe>'
         },
         
@@ -76,14 +41,6 @@
         
         init: function(){
             _Friend.refresh();
-            
-            // facebook stuff
-            _Friend.fb.addCB(function(){
-                FB.Event.subscribe('ad.loaded', function(id){ console.log('FBAU:'+id+' loaded.'); });
-                FB.Event.subscribe('ad.error',  function(c,m,id){ console.log('FBAU:'+id+' not loaded with error '+m); });
-            });
-            
-            _Friend.fb.wait();
         },
  
         refresh: function(){
@@ -117,7 +74,7 @@
                             type: '1',
                             title: place,
                             image: 'http://placehold.it/' + size + '?text=' + place + '(' + size + ')',
-                            link: 'http://google.com/'
+                            link: 'https://www.google.com/'
                         };
                         
                         items[place].push(item);
@@ -171,17 +128,7 @@
                         gExists = true;
                         break;
                     
-                    case '4':   // Facebook Audience Network
-                        var $fbad = $(_Friend.template(item));
-                        $el.before($fbad);
-                        
-                        _Friend.fb.addCB(function($fbad){
-                            return function(){
-                                FB.XFBML.parse($fbad);
-                            }
-                        }($fbad.get(0)));
-                        break;
-                    case '5':   // iFrame with timer?
+                    case '4':   // iFrame with timer?
                         var tmpl = $el.html().trim();
                         var $ban = $(_Friend.template(item,tmpl));
                         $el.before($ban);
