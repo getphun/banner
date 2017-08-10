@@ -7,8 +7,7 @@ CREATE TABLE IF NOT EXISTS `banner` (
     -- 1 Banner
     -- 2 Source
     -- 3 Google Ads
-    -- 4 Facebook Audience Network
-    -- 5 iFrame
+    -- 4 iFrame
     `type` TINYINT DEFAULT 1,
     
     -- Type Banner
@@ -23,10 +22,6 @@ CREATE TABLE IF NOT EXISTS `banner` (
     `ga_client` VARCHAR(100),
     `ga_slot` VARCHAR(100),
     `ga_format` VARCHAR(100),
-    
-    -- Type Facebook Audience Network
-    `fan_placementid` VARCHAR(150),
-    `fan_format` VARCHAR(50),
     
     -- Type iFrame
     `ifr_src` VARCHAR(150),

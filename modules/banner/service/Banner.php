@@ -46,11 +46,7 @@ class Banner {
                 'ga_slot'   => 'slot',
                 'ga_format' => 'format'
             ],
-            4 => [  // Facebook Audience Network
-                'fan_placementid' => 'placementid',
-                'fan_format'      => 'format'
-            ],
-            5 => [  // iFrame
+            4 => [  // iFrame
                 'ifr_src' => 'src',
                 'ifr_time'=> 'time'
             ]
