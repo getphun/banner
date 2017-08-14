@@ -1,49 +1,36 @@
 (function(window, undefined){
-    
-    if(!window.$)
-        throw new Error('Friend module need for jQuery to be installed.');
+    var hs = function(text){
+        return text
+            .replace(/&/g, "&amp;")
+            .replace(/</g, "&lt;")
+            .replace(/>/g, "&gt;")
+            .replace(/"/g, "&quot;")
+            .replace(/'/g, "&#039;");
+    };
     
     window._Friend = {
-        ga: {
-            _inited: false,
+        items: [],
+        templates: {
+            1: '<a href="#link" title="#title" target="_blank"><img src="#image" alt="#title"></a>',
  
+            2: '#script',
+            
+            3: '<ins class="adsbygoogle" style="display:block" data-ad-client="#client" data-ad-slot="#slot" data-ad-format="#format"></ins>',
+            
+            4: '<iframe src="#src" style="border:0 none;width:100%;height:100%;"></iframe>'
+        },
+ 
+        ga: {
+            initialized: false,
             init: function(){
-                if(_Friend.ga._inited)
+                if(_Friend.ga.initialized)
                     return;
+                _Friend.ga.initialized = true;
                 $('body').append('<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>');
             }
         },
- 
-        items: null,
-        
-        templates: {
-            1: '<a href="#link" title="#title" target="_blank">'
-             +      '<img src="#image" alt="#title">'
-             + '</a>',
- 
-            3: '<ins class="adsbygoogle" style="display:block" '
-             +      'data-ad-client="#client" '
-             +      'data-ad-slot="#slot" data-ad-format="#format">'
-             + '</ins>',
- 
-            4: '<iframe src="#src" style="border:0 none;width:100%;height:100%;">'
-             + '</iframe>'
-        },
-        
-        hs: function(text){
-            return text
-                .replace(/&/g, "&amp;")
-                .replace(/</g, "&lt;")
-                .replace(/>/g, "&gt;")
-                .replace(/"/g, "&quot;")
-                .replace(/'/g, "&#039;");
-        },
         
         init: function(){
-            _Friend.refresh();
-        },
- 
-        refresh: function(){
             var scripts = $('script[type="application/friend"]');
             if(!scripts.length)
                 return;
@@ -62,6 +49,7 @@
                     var place = script.data('placement');
                     var count = script.data('example') || 1;
                     var size  = script.data('size') || defSize;
+                    
                     if(size == 'AUTO')
                         size = defSize;
                     
@@ -86,63 +74,71 @@
                     _Friend.render(scripts[i]);
             }
         },
- 
-        template: function(item, tmpl){
-            if(!tmpl)
-                tmpl = _Friend.templates[item.type];
-            
-            for(var k in item){
-                var re = new RegExp('#'+k, 'g');
-                if(item[k])
-                    tmpl = tmpl.replace(re, _Friend.hs(item[k]));
-            }
-            
-            return tmpl;
-        },
         
         render: function(el){
             var $el = $(el);
             var pman = $el.data('placement');
+            var cb   = $el.data('callback');
             
             if(!_Friend.items[pman])
                 return;
             
             var gExists = false;
+            
             for(var i=0; i<_Friend.items[pman].length; i++){
                 var item = _Friend.items[pman][i];
+                var tmpl = $el.html().trim();
+                var html = _Friend.template(item, tmpl);
                 
                 switch(item.type){
                     
                     case '1':   // Banner
-                        var tmpl = $el.html().trim();
-                        $el.before(_Friend.template(item,tmpl));
+                        $el.before(html);
                         break;
                     
                     case '2':   // Source
-                        $el.before(item.script);
+                        $el.before(html);
                         break;
                     
                     case '3':   // Google ads
                         (window.adsbygoogle = window.adsbygoogle || []).push({});
-                        $el.before(_Friend.template(item));
+                        $el.before(html);
                         gExists = true;
                         break;
                     
                     case '4':   // iFrame with timer?
-                        var tmpl = $el.html().trim();
-                        var $ban = $(_Friend.template(item,tmpl));
-                        $el.before($ban);
+                        $el.before(html);
                         if(item.time)
-                            setTimeout(function(el){ el.remove(); }, item.time * 1000, $ban);
+                            setTimeout(function(el){ el.remove(); }, item.time * 1000, html);
                         break;
                 }
+                
+                if(cb && window[cb])
+                    window[cb]();
             }
             
             if(gExists)
                 _Friend.ga.init();
-        }
-    };
+        },
+        
+        template: function(item, tmpl){
+            if(!tmpl)
+                tmpl = '#template';
+            
+            // change #template to the original template
+            tmpl = tmpl.replace('#template', _Friend.templates[item.type]);
+            
+            for(var k in item){
+                var re = new RegExp('#'+k, 'g');
+                if(item[k]){
+                    item[k] = k == 'script' ? item[k] : hs(item[k])
+                    tmpl = tmpl.replace(re, item[k]);
+                }
+            }
+            
+            return tmpl;
+        },
+    }
     
     $(window._Friend.init);
-    
 })(window);
