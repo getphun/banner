@@ -15,7 +15,7 @@
  
             2: '#script',
             
-            3: '<ins class="adsbygoogle" style="display:block" data-ad-client="#client" data-ad-slot="#slot" data-ad-format="#format"></ins>',
+            3: '#script',
             
             4: '<iframe src="#src" style="border:0 none;width:100%;height:100%;"></iframe>'
         },

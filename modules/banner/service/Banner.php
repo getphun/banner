@@ -42,9 +42,7 @@ class Banner {
                 'sou_text'  => 'script'
             ],
             3 => [  // Google Ads
-                'ga_client' => 'client',
-                'ga_slot'   => 'slot',
-                'ga_format' => 'format'
+                'ga_ins' => 'script'
             ],
             4 => [  // iFrame
                 'ifr_src' => 'src',

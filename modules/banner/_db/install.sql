@@ -19,9 +19,7 @@ CREATE TABLE IF NOT EXISTS `banner` (
     `sou_text` TEXT,
     
     -- Type Google Ads
-    `ga_client` VARCHAR(100),
-    `ga_slot` VARCHAR(100),
-    `ga_format` VARCHAR(100),
+    `ga_ins` TEXT,
     
     -- Type iFrame
     `ifr_src` VARCHAR(150),
