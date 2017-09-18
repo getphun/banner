@@ -1,4 +1,7 @@
-(function(window, undefined){
+$(function(){
+    if(/friend=0/.test(location.search))
+        return;
+    
     var hs = function(text){
         return text
             .replace(/&/g, "&amp;")
@@ -11,7 +14,7 @@
     window._Friend = {
         items: [],
         templates: {
-            1: '<a href="#link" title="#title" target="_blank"><img src="#image" alt="#title"></a>',
+            1: '<a href="#link" title="#title" target="_blank"><img src="#image" alt="#title" class="img-responsive"></a>',
  
             2: '#script',
             
@@ -141,4 +144,4 @@
     }
     
     $(window._Friend.init);
-})(window);
+});
