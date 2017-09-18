@@ -11,13 +11,14 @@ return [
     '__version' => '0.0.1',
     '__git' => 'https://github.com/getphun/banner',
     '__files' => [
-        'modules/banner/config.php'         => ['install', 'remove', 'update'],
-        'modules/banner/_db'                => ['install', 'remove', 'update'],
-        'modules/banner/controller'         => ['install', 'remove', 'update'],
-        'modules/banner/model'              => ['install', 'remove', 'update'],
-        'modules/banner/service'            => ['install', 'remove', 'update'],
-        'modules/banner/event'              => ['install', 'remove' ],
-        'theme/site/static/js/friend.js'    => ['install', 'remove', 'update']
+        'modules/banner/config.php'             => ['install', 'remove', 'update'],
+        'modules/banner/_db'                    => ['install', 'remove', 'update'],
+        'modules/banner/controller'             => ['install', 'remove', 'update'],
+        'modules/banner/model'                  => ['install', 'remove', 'update'],
+        'modules/banner/service'                => ['install', 'remove', 'update'],
+        'modules/banner/event'                  => ['install', 'remove' ],
+        'theme/site/static/js/friend.js'        => ['install', 'remove', 'update'],
+        'theme/site/static/js/friend.min.js'    => ['install', 'remove', 'update']
     ],
     '__dependencies' => [
         'db-mysql'
