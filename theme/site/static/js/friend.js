@@ -3,7 +3,7 @@ $(function(){
         return;
     
     var hs = function(text){
-        return text
+        return (''+text)
             .replace(/&/g, "&amp;")
             .replace(/</g, "&lt;")
             .replace(/>/g, "&gt;")
@@ -13,6 +13,7 @@ $(function(){
     
     window._Friend = {
         items: [],
+        device: [1,4,6,7],
         templates: {
             1: '<a href="#link" title="#title" target="_blank"><img src="#image" alt="#title" class="img-responsive"></a>',
  
@@ -38,6 +39,11 @@ $(function(){
             if(!scripts.length)
                 return;
             
+            if(screen.width >= 992)
+                _Friend.device = [1,2,3,4];
+            else if(screen.width >= 768)
+                _Friend.device = [1,3,5,6];
+            
             if(!/friend=1/.test(location.search)){
                 $.get('/comp/friends', function(res){
                     _Friend.items = res.data || [];
@@ -62,8 +68,9 @@ $(function(){
                         var item = {
                             id: i + '0000' + j,
                             name: 'Item ' + i,
-                            type: '1',
+                            type: 1,
                             title: place,
+                            device: 1,
                             image: 'http://placehold.it/' + size + '?text=' + place + '(' + size + ')',
                             link: 'https://www.google.com/'
                         };
@@ -93,26 +100,28 @@ $(function(){
                 var tmpl = $el.html().trim();
                 var html = _Friend.template(item, tmpl);
                 
+                // should we render this?
+                if(!~_Friend.device.indexOf(item.device))
+                        continue;
+                
                 switch(item.type){
                     
-                    case '1':   // Banner
+                    case 1:   // Banner
                         $el.before(html);
                         break;
                     
-                    case '2':   // Source
+                    case 2:   // Source
                         $el.before(html);
                         break;
                     
-                    case '3':   // Google ads
+                    case 3:   // Google ads
                         (window.adsbygoogle = window.adsbygoogle || []).push({});
                         $el.before(html);
                         gExists = true;
                         break;
                     
-                    case '4':   // iFrame with timer?
+                    case 4:   // iFrame with timer?
                         $el.before(html);
-                        if(item.time)
-                            setTimeout(function(el){ el.remove(); }, item.time * 1000, html);
                         break;
                 }
                 
@@ -134,8 +143,8 @@ $(function(){
             for(var k in item){
                 var re = new RegExp('#'+k, 'g');
                 if(item[k]){
-                    item[k] = k == 'script' ? item[k] : hs(item[k])
-                    tmpl = tmpl.replace(re, item[k]);
+                    var rep = k == 'script' ? item[k] : hs(item[k]);
+                    tmpl = tmpl.replace(re, rep);
                 }
             }
             

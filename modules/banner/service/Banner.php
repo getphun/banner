@@ -45,8 +45,7 @@ class Banner {
                 'ga_ins' => 'script'
             ],
             4 => [  // iFrame
-                'ifr_src' => 'src',
-                'ifr_time'=> 'time'
+                'ifr_src' => 'src'
             ]
         ];
         
@@ -59,7 +58,8 @@ class Banner {
                 $obj = [
                     'id'    => $ban->id,
                     'name'  => $ban->name,
-                    'type'  => $ban->type
+                    'type'  => (int)$ban->type,
+                    'device'=> (int)$ban->device
                 ];
                 
                 $props = $type_props[$ban->type];

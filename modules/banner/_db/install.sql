@@ -3,6 +3,14 @@ CREATE TABLE IF NOT EXISTS `banner` (
     `user` INTEGER NOT NULL,
     `name` VARCHAR(50) NOT NULL UNIQUE,
     `placement` VARCHAR(50) NOT NULL,
+    -- 1 All
+    -- 2 Desktop Only
+    -- 3 Desktop and Tablet
+    -- 4 Desktop and Phone
+    -- 5 Tablet Only
+    -- 6 Tablet and Phone
+    -- 7 Phone Only
+    `device` TINYINT DEFAULT 1,
     `expired` DATETIME,
     -- 1 Banner
     -- 2 Source
@@ -23,7 +31,6 @@ CREATE TABLE IF NOT EXISTS `banner` (
     
     -- Type iFrame
     `ifr_src` VARCHAR(150),
-    `ifr_time` INTEGER,
     
     `updated` TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
     `created` TIMESTAMP DEFAULT CURRENT_TIMESTAMP
