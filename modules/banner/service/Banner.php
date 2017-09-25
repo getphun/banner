@@ -8,6 +8,7 @@
 
 namespace Banner\Service;
 use Core\Library\View;
+use Banner\Model\Banner as MBanner;
 
 class Banner {
 
@@ -23,10 +24,12 @@ class Banner {
             return;
         }
         
-        $cache_time = 0;
-        $banners = \Banner\Model\Banner::get([
-            'expired > :expiration',
-            'bind'  => ['expiration' => date('Y-m-d H:i:s')]
+        $now     = date('Y-m-d H:i:s');
+        $banners = MBanner::get([
+            'expired > :now AND timestart < :now',
+            'bind'  => [
+                'now' => $now
+            ]
         ], true, false, 'placement ASC, created ASC');
         
         if(!$banners)
@@ -67,14 +70,31 @@ class Banner {
                     $obj[$name] = $ban->$prop;
                 
                 $result[$ban->placement][] = $obj;
-                
-                $expired = strtotime($ban->expired);
-                if(!$cache_time || $expired < $cache_time)
-                    $cache_time = $expired;
             }
         }
         
-        $cache_time = $cache_time - time();
+        $cache_time = null;
+        $nexts = MBanner::get([
+            'expired > :expired OR timestart > :expired',
+            'bind' => [
+                'expired' => $now
+            ]
+        ], true);
+        
+        $time = time();
+        foreach($nexts as $ban){
+            $expired   = strtotime($ban->expired);
+            $timestart = strtotime($ban->timestart);
+            
+            if($timestart > $time)
+                $tocount = $timestart - $time;
+            else
+                $tocount = $expired - $time;
+            
+            if(is_null($cache_time) || $cache_time > $tocount)
+                $cache_time = $tocount;
+        }
+        
         $dis->cache->save($cache_name, $result, $cache_time);
         
         $this->_banners = $result;
