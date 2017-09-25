@@ -12,6 +12,7 @@ CREATE TABLE IF NOT EXISTS `banner` (
     -- 7 Phone Only
     `device` TINYINT DEFAULT 1,
     `expired` DATETIME,
+    `timestart` DATETIME,
     -- 1 Banner
     -- 2 Source
     -- 3 Google Ads

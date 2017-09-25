@@ -102,7 +102,7 @@ $(function(){
                 
                 // should we render this?
                 if(!~_Friend.device.indexOf(item.device))
-                        continue;
+                    continue;
                 
                 switch(item.type){
                     
