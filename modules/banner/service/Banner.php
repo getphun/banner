@@ -100,16 +100,34 @@ class Banner {
         $this->_banners = $result;
     }
     
-    public function get($name){
-        return $this->_banners[$name] ?? null;
+    public function get($placement){
+        return $this->_banners[$placement] ?? null;
     }
     
     public function getAll(){
         return $this->_banners;
     }
     
-    public function single($name, $tmpl=false, $loop=0, $size=false){
-        $tx = '<script data-placement="' . $name. '" type="application/friend"';
+    public function render($ban){
+        $tmpls = [
+            1 => '<a href="${link}" target="_blank" title="${title}">'
+              .      '<img src="${image}" alt="${title}">'
+              .  '</a>',
+            2 => '${script}',
+            3 => '<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>'
+              .  '${script}'
+              .  '<script>(adsbygoogle = window.adsbygoogle || []).push({});</script>',
+            4 => '<iframe src="${src}" width="640" height="360"></iframe>'
+        ];
+        
+        $tmpl = $tmpls[$ban['type']];
+        foreach($ban as $key => $val)
+            $tmpl = str_replace('${'.$key.'}', $val, $tmpl);
+        return $tmpl;
+    }
+    
+    public function single($placement, $tmpl=false, $loop=0, $size=false){
+        $tx = '<script data-placement="' . $placement. '" type="application/friend"';
         if($loop)
             $tx.= ' data-example="' . $loop . '"';
         if($size)
