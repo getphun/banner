@@ -129,6 +129,7 @@ $(function(){
                     window[cb]();
             }
             
+            $el.remove();
             if(gExists)
                 _Friend.ga.init();
         },

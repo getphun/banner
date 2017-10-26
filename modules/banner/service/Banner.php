@@ -126,12 +126,14 @@ class Banner {
         return $tmpl;
     }
     
-    public function single($placement, $tmpl=false, $loop=0, $size=false){
+    public function single($placement, $tmpl=false, $loop=0, $size=false, $callback=null){
         $tx = '<script data-placement="' . $placement. '" type="application/friend"';
         if($loop)
             $tx.= ' data-example="' . $loop . '"';
         if($size)
             $tx.= ' data-size="' . $size . '"';
+        if($callback)
+            $tx.= ' data-callback="' . $callback . '"';
         $tx.= '>';
         if($tmpl){
             $html = new View('site', $tmpl, []);
