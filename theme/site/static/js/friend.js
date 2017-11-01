@@ -115,7 +115,8 @@ $(function(){
                         break;
                     
                     case 3:   // Google ads
-                        (window.adsbygoogle = window.adsbygoogle || []).push({});
+                        if(/<ins/.test(html))
+                            (window.adsbygoogle = window.adsbygoogle || []).push({});
                         $el.before(html);
                         gExists = true;
                         break;
