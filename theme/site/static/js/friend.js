@@ -26,7 +26,21 @@ $(function(){
             
             3: '#script',
             
-            4: '<iframe src="#src" style="border:0 none;width:100%;height:100%;"></iframe>'
+            4: '<iframe src="#src" style="border:0 none;width:100%;height:100%;"></iframe>',
+  
+            5: '<div id="SC_TBlock_#id" class="SC_TBlock">...</div>'
+        },
+  
+        an: {
+            initialized: false,
+            domains: [],
+            init: function(){
+                if(_Friend.an.initialized)
+                    return;
+                _Friend.an.initialized = true;
+                for(var i=0; i<_Friend.an.domains.length; i++)
+                    $('body').append('<script src="//st-'+_Friend.an.domains[i]+'/js/adv_out.js"></script>');
+            }
         },
  
         ga: {
@@ -99,6 +113,7 @@ $(function(){
                 return;
             
             var gExists = false;
+            var anExists= false;
             
             for(var i=0; i<_Friend.items[pman].length; i++){
                 var item = _Friend.items[pman][i];
@@ -126,8 +141,16 @@ $(function(){
                         gExists = true;
                         break;
                     
-                    case 4:   // iFrame with timer?
+                    case 4:   // iFrame
                         $el.before(html);
+                        break;
+                    
+                    case 5:   // AdNow
+                        $el.before(html);
+                            (sc_adv_out=window.sc_adv_out||[]).push({id:item.id,domain:item.domain});
+                        anExists = true;
+                        if(!~_Friend.an.domains.indexOf(item.domain))
+                            _Friend.an.domains.push(item.domain);
                         break;
                 }
                 
@@ -138,6 +161,8 @@ $(function(){
             $el.remove();
             if(gExists)
                 _Friend.ga.init();
+            if(anExists)
+                _Friend.an.init();
         },
         
         template: function(item, tmpl){

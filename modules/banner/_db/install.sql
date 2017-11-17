@@ -33,6 +33,10 @@ CREATE TABLE IF NOT EXISTS `banner` (
     -- Type iFrame
     `ifr_src` VARCHAR(150),
     
+    -- Type AdNow
+    `an_id` VARCHAR(20),
+    `an_domain` VARCHAR(50),
+    
     `updated` TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
     `created` TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );

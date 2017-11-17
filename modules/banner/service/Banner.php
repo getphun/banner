@@ -45,10 +45,14 @@ class Banner {
                 'sou_text'  => 'script'
             ],
             3 => [  // Google Ads
-                'ga_ins' => 'script'
+                'ga_ins'    => 'script'
             ],
             4 => [  // iFrame
-                'ifr_src' => 'src'
+                'ifr_src'   => 'src'
+            ],
+            5 => [  // AdNow
+                'an_id'     => 'id',
+                'an_domain' => 'domain'
             ]
         ];
         
@@ -117,7 +121,8 @@ class Banner {
             3 => '<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>'
               .  '${script}'
               .  '<script>(adsbygoogle = window.adsbygoogle || []).push({});</script>',
-            4 => '<iframe src="${src}" width="640" height="360"></iframe>'
+            4 => '<iframe src="${src}" width="640" height="360"></iframe>',
+            5 => '<div id="SC_TBlock_${id}" class="SC_TBlock">loading...</div>'
         ];
         
         $tmpl = $tmpls[$ban['type']];
