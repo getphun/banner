@@ -2,11 +2,6 @@ $(function(){
     if(/friend=0/.test(location.search))
         return;
     
-    // if it's from baca application, just don't get the banner as user won't
-    // even see it
-    if(/utm_source=(android|Baca)/.test(location.search) && /utm_medium=(nip|Agregator)/.test(location.search))
-        return;
-    
     var hs = function(text){
         return (''+text)
             .replace(/&/g, "&amp;")
