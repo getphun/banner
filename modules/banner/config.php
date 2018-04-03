@@ -17,8 +17,11 @@ return [
         'modules/banner/model'                  => ['install', 'remove', 'update'],
         'modules/banner/service'                => ['install', 'remove', 'update'],
         'modules/banner/event'                  => ['install', 'remove' ],
+        
         'theme/site/static/js/friend.js'        => ['install', 'remove', 'update'],
-        'theme/site/static/js/friend.min.js'    => ['install', 'remove', 'update']
+        'theme/site/static/js/friend.min.js'    => ['install', 'remove', 'update'],
+        'theme/site/static/js/friend.min.js.gz' => ['install', 'remove', 'update'],
+        'theme/site/static/js/friend.min.js.br' => ['install', 'remove', 'update']
     ],
     '__dependencies' => [
         'db-mysql'
