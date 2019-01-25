@@ -85,7 +85,7 @@ $(function(){
                             type: 1,
                             title: place,
                             device: 1,
-                            image: 'http://placehold.it/' + size + '?text=' + place + '(' + size + ')',
+                            image: 'http://placehold.it/' + size + '?text=' + size,
                             link: 'https://www.google.com/'
                         };
                         
